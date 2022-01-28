@@ -1,7 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    const githubQuery = {
+      query: `
+        {
+          viewer {
+            name
+          }
+        }
+      `
+    };
+    fetch(process.env.REACT_APP_BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `bearer ${process.env.REACT_APP_AUTH_TOKEN}`
+      },
+      body: JSON.stringify(githubQuery)
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
