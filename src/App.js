@@ -1,29 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from "react";
+
+import logo from "./logo.svg";
+import "./App.css";
+import Queries from "./Queries";
 
 function App() {
+  const [userName, setUserName] = useState("");
   useEffect(() => {
-    const githubQuery = {
-      query: `
-        {
-          viewer {
-            name
-          }
-        }
-      `
-    };
     fetch(process.env.REACT_APP_BASE_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `bearer ${process.env.REACT_APP_AUTH_TOKEN}`
+        "Content-Type": "application/json",
+        Authorization: `bearer ${process.env.REACT_APP_AUTH_TOKEN}`,
       },
-      body: JSON.stringify(githubQuery)
+      body: JSON.stringify(Queries),
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+      .then((response) => response.json())
+      .then((data) => {
+        setUserName(data.data.viewer.name);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
@@ -42,6 +38,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <h1>{userName}</h1>
     </div>
   );
 }
