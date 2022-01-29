@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Queries from "./Queries";
+import Repository from "./Repository";
 
 function App() {
   const [userName, setUserName] = useState("");
+  const [repoList, setRepoList] = useState(null);
+
   useEffect(() => {
     fetch(process.env.REACT_APP_BASE_URL, {
       method: "POST",
@@ -17,7 +20,10 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserName(data.data.viewer.name);
+        console.log(data);
+        const viewer = data.data.viewer;
+        setUserName(viewer.name);
+        setRepoList(viewer.repositories.nodes);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -39,6 +45,13 @@ function App() {
         </a>
       </header>
       <h1>{userName}</h1>
+      {repoList && (
+        <ul>
+          {repoList.map((repo) => (
+            <Repository repo={repo} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
