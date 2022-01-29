@@ -13,6 +13,16 @@ const Queries = {
                 name
                 url
                 description
+                diskUsage
+                licenseInfo {
+                  spdxId
+                }
+                isPrivate
+                languages(first:5){
+                  nodes {
+                    name
+                  }
+                }
               }
             }
           }

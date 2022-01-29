@@ -21,7 +21,6 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         const viewer = data.data.viewer;
         const searchResults = data.data.search;
         setLoginName(viewer.login);
@@ -35,16 +34,24 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>{userName}</h1>
-        <h3>{loginName}</h3>
+        <h1 className="text-3xl font-bold underline">{userName}</h1>
+        <h3>
+          <a
+            href={`https://www.github.com/${loginName}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            &#64;{loginName}
+          </a>
+        </h3>
       </header>
-      <main>
+      <main className="md:container md:mx-auto">
         {repoList && (
-          <ul>
+          <div className="grid grid-cols-4 gap-4 auto-rows-auto">
             {repoList.map((repo) => (
               <Repository key={repo.id} repo={repo} />
             ))}
-          </ul>
+          </div>
         )}
       </main>
     </div>
