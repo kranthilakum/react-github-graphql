@@ -6,6 +6,7 @@ import Queries from "./Queries";
 import Repository from "./Repository";
 
 function App() {
+  const [loginName, setLoginName] = useState("");
   const [userName, setUserName] = useState("");
   const [repoList, setRepoList] = useState(null);
 
@@ -22,8 +23,10 @@ function App() {
       .then((data) => {
         console.log(data);
         const viewer = data.data.viewer;
+        const searchResults = data.data.search;
+        setLoginName(viewer.login);
         setUserName(viewer.name);
-        setRepoList(viewer.repositories.nodes);
+        setRepoList(searchResults.nodes);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -32,26 +35,18 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>{userName}</h1>
+        <h3>{loginName}</h3>
       </header>
-      <h1>{userName}</h1>
-      {repoList && (
-        <ul>
-          {repoList.map((repo) => (
-            <Repository repo={repo} />
-          ))}
-        </ul>
-      )}
+      <main>
+        {repoList && (
+          <ul>
+            {repoList.map((repo) => (
+              <Repository key={repo.id} repo={repo} />
+            ))}
+          </ul>
+        )}
+      </main>
     </div>
   );
 }
