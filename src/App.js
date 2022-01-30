@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header bg-gray-700">
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="text-3xl font-bold underline">{userName}</h1>
         <h3>

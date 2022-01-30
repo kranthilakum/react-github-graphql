@@ -20,6 +20,7 @@ const Queries = {
                 isPrivate
                 languages(first:5){
                   nodes {
+                    id
                     name
                   }
                 }
